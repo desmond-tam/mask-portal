@@ -8,20 +8,7 @@ export const DashboardSection = (props:any) => {
    
 }
 
-export const CaptchaForm = () => {
-  const [enable,setenable] = useState<boolean>(false);
-  const callback = () => {
-      setenable(true);
-  }
 
-  return(
-    <form action="?" method="POST">
-      <div className="g-recaptcha" data-callback={() => callback()} data-sitekey="6LdPNisiAAAAAFMeu9o4YdHyXd55XSPbRNADnRfv"></div>
-      <br/>
-    </form>
-
-  )
-}
 
 export const FileUploader = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
@@ -33,7 +20,7 @@ export const FileUploader = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const callback = () => {
+  const captcha_callback = () => {
       setenable(true);
   }
 
@@ -78,7 +65,7 @@ export const FileUploader = () => {
   return (
     <>
     <form action="?" method="POST">
-      <div className="g-recaptcha" data-callback="callback" data-sitekey="6LdPNisiAAAAAFMeu9o4YdHyXd55XSPbRNADnRfv"></div>
+      <div className="g-recaptcha" data-callback={captcha_callback} data-sitekey="6LdPNisiAAAAAFMeu9o4YdHyXd55XSPbRNADnRfv"></div>
       <br/>
     </form>
     <div className='select-file-container'>
