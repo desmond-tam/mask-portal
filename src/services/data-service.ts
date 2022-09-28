@@ -1,8 +1,8 @@
 import { graphConfig } from "../config/authConfig";
 import axios from "axios";
 import { from, Observable } from 'rxjs';
-import { axiosConfig, baseUrl } from "./util.service";
-
+import { axiosConfig } from "./util.service";
+import { environment } from "../environments/environment";
 
 
 
@@ -51,7 +51,7 @@ export async function callMsGraph(accessToken:string) {
 
   export class dataService {
     public upload(body:any):Observable<any> {
-        const url = `${baseUrl}/api/mask/upload`;
+        const url = `${environment.endpoint()}/api/mask/upload`;
         const promise = axios.post(url,body,axiosConfig);
         return from(promise);
     }

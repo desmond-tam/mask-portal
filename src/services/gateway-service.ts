@@ -68,7 +68,6 @@ export const useTokenObs = () => {
 
 
 let toastor :BehaviorSubject<string[]>;
-
 export const getToastorLines = () => {
     if (!toastor) {
         return undefined;
@@ -109,6 +108,31 @@ export const useToastor = () => {
 
 
 export const gateway = {
+    toastor:new BehaviorSubject<string[]>([]),
+    useToastor:() => {
+        const [texts,setText] = useState<string[]>([]);
+        useEffect(() => {
+            const sub = toastor?.subscribe((lines:string[]) => {
+                setText(lines);
+            });
+    
+            return () => {
+                if (sub) {
+                    sub.unsubscribe();
+                }
+            };
+        },[]);
+    
+        const addText = (text:string) => {
+            toastor.next([...texts,text]);
+        }
+    
+        const clear = () => {
+            toastor.next([]);
+        }
+    
+        return { addText,clear,texts};
+    },
     spinner:new BehaviorSubject<boolean>(false),
     useSpinner:() => {
         const [visible,setVisible] = useState<boolean>(false);

@@ -1,34 +1,33 @@
 import { data_service,  gateway } from '../services/gateway-service';
-import { ReCAPTCHA } from "react-google-recaptcha";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import $ from 'jquery';
 
 import './body-section.scss';
+import { environment } from '../environments/environment';
+import { isCaptchaChecked } from '../services/util.service';
 
 export const DashboardSection = (props:any) => {
    
 }
 
 
-
 export const FileUploader = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const { showSpinner, hideSpinner } = gateway.useSpinner();
-  const [enable,setenable] = useState<boolean>(false);
+  const { addText } = gateway.useToastor();
 
   const onFileChange = (event:any) => {
     // Update the state
-    setSelectedFile(event.target.files[0]);
+      setSelectedFile(event.target.files[0]);
+      displaycap();
   };
 
-  const captcha_callback = () => {
-      setenable(true);
-  }
-
-  const getdatakey = () => {
-      return "6LdPNisiAAAAAFMeu9o4YdHyXd55XSPbRNADnRfv";
-  }
 
   const onFileUpload = () => {
+    if (!isCaptchaChecked()) {
+      addText("please check the google check box.");
+      return;
+    }
     // Create an object of formData
     const formData = new FormData();
   
@@ -62,12 +61,26 @@ export const FileUploader = () => {
     )
   }
 
+  // const Captcha = () => {
+    
+    
+  //   // return (
+  //   //   <form action="?" method="POST">
+  //   //     <div className="g-recaptcha" data-sitekey="6LdPNisiAAAAAFMeu9o4YdHyXd55XSPbRNADnRfv"></div>
+  //   //     <br/>
+  //   //   </form>
+  //   // )
+  // }
+  const displaycap = () => {
+    setTimeout(() => {
+      window.grecaptcha.render('RecaptchaField1', {'sitekey': '6LdPNisiAAAAAFMeu9o4YdHyXd55XSPbRNADnRfv'});
+    }, 600);
+  }
+
   return (
     <>
-    <form action="?" method="POST">
-      <div className="g-recaptcha" data-callback={captcha_callback} data-sitekey="6LdPNisiAAAAAFMeu9o4YdHyXd55XSPbRNADnRfv"></div>
-      <br/>
-    </form>
+    { !environment.isLocal() ?  <div id="RecaptchaField1" ></div> : <></> } 
+   
     <div className='select-file-container'>
         <input type="file" id="actual-btn" onChange={(e) => onFileChange(e)} hidden/>
         <label className='upload-file-label' htmlFor="actual-btn">Choose File</label>
@@ -75,7 +88,7 @@ export const FileUploader = () => {
     </div>
       {/* <input type="file" onChange={(e) => onFileChange(e)} /> */}
       <div className='upload-button-container'>
-          { enable ? <ProcessButton /> : <></>}
+          <ProcessButton />
       </div>
       </>
   );
@@ -93,10 +106,11 @@ export const BodySection = (props:any) => {
     // const list = users.map(x => <li key={x.identifier}>{x.name}</li>);
     return (
         <>
-          <div><p>Names will be masked on the upload pdf file.</p>
-          <p>The file should not be larger than 10mb.</p></div>
+          <div>
+            <p>The PDF masking process is not for commercial use and still doing the fine tuning.</p>
+            <p>The file should not be larger than 10mb.</p></div>
               {/* { !show ?  <Dummy /> : <CheckInForm />}    */}
-          <FileUploader />
+              <FileUploader />
           {/* <div>
             <button onClick={() => ontest()}>test</button>
             <button onClick={() => ontest2()}>test2</button>

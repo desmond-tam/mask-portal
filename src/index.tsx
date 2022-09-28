@@ -5,7 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 
-
+declare global {
+  interface Window { 
+    grecaptcha?: any; 
+  }
+}
 //const msalInstance = new PublicClientApplication(msalConfig);
 
 const root = ReactDOM.createRoot(
