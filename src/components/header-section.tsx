@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Dropdown, Modal, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
-import { useToastor, useUserObs, useTokenObs, msalSrv } from '../services/gateway-service';
+import { useUserObs, useTokenObs, msalSrv, gateway } from '../services/gateway-service';
+import { addToast } from "../services/util.service";
 
 
 export const LoginButton = () => {
@@ -64,7 +65,6 @@ const SignOutButton = () => {
 }
 
 export const MoreAction = () => {
-    const { addText,clear } = useToastor();
     const { getUserList ,users} = useUserObs();
 
 
@@ -77,7 +77,7 @@ export const MoreAction = () => {
     
           <Dropdown.Menu>
             <Dropdown.Item href="#" onClick={() => getUserList() }>Get users</Dropdown.Item>
-            <Dropdown.Item href="#" onClick={() => addText('hello')}>Send Msg</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => addToast('hello')}>Send Msg</Dropdown.Item>
             <Dropdown.Item href="#">Something else</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -106,6 +106,7 @@ export const MoreAction = () => {
 export const HeaderSection = (props:any) => {
     const [isAuthenticated,setAuthenticated] = useState<boolean>(false);
     const { setToken,idToken } = useTokenObs();
+   
     
     useEffect(() => {
         if (msalSrv.IsAuthenicated()) {
@@ -130,8 +131,8 @@ export const HeaderSection = (props:any) => {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                  {/* <Nav.Link href="#features">Features</Nav.Link>
-                  <Nav.Link href="#pricing">Pricing</Nav.Link> */}
+                    {/* <Nav.Link href="#" onClick={() => addToast('hello')}>Features</Nav.Link>
+                    <Nav.Link href="#pricing">Pricing</Nav.Link>  */}
                   {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">

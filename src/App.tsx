@@ -5,8 +5,7 @@ import { FooterSection } from './components/footer-section';
 import { Col, Container, Row } from 'react-bootstrap';
 import { PageSpinner } from './components/page-spinner';
 import { BodySection } from './components/body-section';
-
-
+import { ToastSection } from './components/toast-section';
 
 
 class App extends Component {
@@ -34,6 +33,7 @@ class App extends Component {
               </Row>
           </Container>
           <FooterSection></FooterSection>
+          <ToastSection></ToastSection>
         </>
       );
   }

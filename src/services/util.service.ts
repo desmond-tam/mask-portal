@@ -2,6 +2,7 @@
 
 //export const baseUrl = 'https://depowersoft.com.au';
 
+import { toast } from "react-toastify";
 import { environment } from "../environments/environment"
 
 //export const baseUrl = 'https://localhost:7090';
@@ -20,4 +21,8 @@ export const isCaptchaChecked = () => {
     } else {
         return window.grecaptcha?.getResponse() != '';
     }
+}
+
+export const addToast = (text:string) => {
+    toast(text);
 }

@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { BehaviorSubject, Observable } from "rxjs";
 import { IAuthication, IUser } from '../models/data-model';
 import { preSignin, dataService } from './data-service';
@@ -67,72 +68,47 @@ export const useTokenObs = () => {
 }
 
 
-let toastor :BehaviorSubject<string[]>;
-export const getToastorLines = () => {
-    if (!toastor) {
-        return undefined;
-    }
-    return toastor.value;
-}
+//let toastor :BehaviorSubject<string[]>;
+// export const getToastorLines = () => {
+//     if (!toastor) {
+//         return undefined;
+//     }
+//     return toastor.value;
+// }
 
-export const useToastor = () => {
-    const [texts,setText] = useState<string[]>([]);
+// export const useToastor = () => {
+//     const [texts,setText] = useState<string[]>([]);
     
-    if (!toastor) {
-        toastor = new BehaviorSubject<string[]>([]);
-    }
+//     if (!toastor) {
+//         toastor = new BehaviorSubject<string[]>([]);
+//     }
 
-    useEffect(() => {
-        const subscription = toastor?.subscribe((lines:string[]) => {
-            setText(lines);
-        });
+//     useEffect(() => {
+//         const subscription = toastor?.subscribe((lines:string[]) => {
+//             setText(lines);
+//         });
 
-        return () => {
-            if (subscription) {
-                subscription.unsubscribe();
-            }
-        };
-    },[]);
+//         return () => {
+//             if (subscription) {
+//                 subscription.unsubscribe();
+//             }
+//         };
+//     },[]);
 
-    const addText = (text:string) => {
-        toastor.next([...texts,text]);
-    }
+//     const addText = (text:string) => {
+//         toastor.next([...texts,text]);
+//     }
 
-    const clear = () => {
-        toastor.next([]);
-    }
+//     const clear = () => {
+//         toastor.next([]);
+//     }
 
-    return { addText,clear,texts};
-}
+//     return { addText,clear,texts};
+// }
 
 
 
 export const gateway = {
-    toastor:new BehaviorSubject<string[]>([]),
-    useToastor:() => {
-        const [texts,setText] = useState<string[]>([]);
-        useEffect(() => {
-            const sub = toastor?.subscribe((lines:string[]) => {
-                setText(lines);
-            });
-    
-            return () => {
-                if (sub) {
-                    sub.unsubscribe();
-                }
-            };
-        },[]);
-    
-        const addText = (text:string) => {
-            toastor.next([...texts,text]);
-        }
-    
-        const clear = () => {
-            toastor.next([]);
-        }
-    
-        return { addText,clear,texts};
-    },
     spinner:new BehaviorSubject<boolean>(false),
     useSpinner:() => {
         const [visible,setVisible] = useState<boolean>(false);

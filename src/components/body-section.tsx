@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 import './body-section.scss';
 import { environment } from '../environments/environment';
-import { isCaptchaChecked } from '../services/util.service';
+import { addToast, isCaptchaChecked } from '../services/util.service';
 
 export const DashboardSection = (props:any) => {
    
@@ -14,7 +14,6 @@ export const DashboardSection = (props:any) => {
 export const FileUploader = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const { showSpinner, hideSpinner } = gateway.useSpinner();
-  const { addText } = gateway.useToastor();
 
   const onFileChange = (event:any) => {
     // Update the state
@@ -25,7 +24,7 @@ export const FileUploader = () => {
 
   const onFileUpload = () => {
     if (!isCaptchaChecked()) {
-      addText("please check the google check box.");
+      addToast("please check the google check box.");
       return;
     }
     // Create an object of formData
