@@ -16,7 +16,7 @@ export const axiosConfig = {
 }
 
 export const isCaptchaChecked = () => {
-    if (environment.isLocal()) {
+    if (isLocal()) {
         return true;
     } else {
         return window.grecaptcha?.getResponse() != '';
@@ -26,3 +26,7 @@ export const isCaptchaChecked = () => {
 export const addToast = (text:string) => {
     toast(text);
 }
+
+export const isLocal = () => {
+    return window.location.host.indexOf('localhost') >= 0;
+  }

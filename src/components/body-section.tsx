@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 import './body-section.scss';
 import { environment } from '../environments/environment';
-import { addToast, isCaptchaChecked } from '../services/util.service';
+import { addToast, isCaptchaChecked, isLocal } from '../services/util.service';
 
 export const DashboardSection = (props:any) => {
    
@@ -24,7 +24,7 @@ export const FileUploader = () => {
 
   const onFileUpload = () => {
     if (!isCaptchaChecked()) {
-      addToast("please check the google check box.");
+      addToast("please click on google check box.");
       return;
     }
     // Create an object of formData
@@ -37,10 +37,11 @@ export const FileUploader = () => {
     );
     
     showSpinner();
-    data_service.upload(formData)
-        .subscribe((res:any) => {
-            var data = res.data;
-            hideSpinner();
+    data_service.Upload(formData)
+        .subscribe({
+          next:(res:any) => {
+            var data = res;
+            
             // let screamData = res.data.screamImageUrl;
             //var blob = new Blob([data], { type: "application/pdf" });
             var link = document.createElement('a');
@@ -49,6 +50,15 @@ export const FileUploader = () => {
             const filename = `out_${selectedFile.name}`;
             link.download = filename;
             link.click();
+          },
+          error:(err:string[]) => {
+            err.forEach(x => {
+              addToast(x);
+            })
+          }
+        })
+        .add(() => {
+          hideSpinner();
         })
   };
 
@@ -78,7 +88,7 @@ export const FileUploader = () => {
 
   return (
     <>
-    { !environment.isLocal() ?  <div id="RecaptchaField1" ></div> : <></> } 
+    { !isLocal() ?  <div id="RecaptchaField1" ></div> : <></> } 
    
     <div className='select-file-container'>
         <input type="file" id="actual-btn" onChange={(e) => onFileChange(e)} hidden/>
@@ -97,10 +107,26 @@ export const FileUploader = () => {
 
 export const BodySection = (props:any) => {
     const ontest = () => {
-      data_service.getwealther();
+      data_service.getwealther()
+      .subscribe({
+        next:() => {
+          console.log('done');
+        },
+        error:(err:any) => {
+          addToast(err);
+        }
+      })
     }
     const ontest2 = () => {
-      data_service.getapiwealther();
+      data_service.GetSample()
+        .subscribe({
+          next:() => {
+            console.log('done');
+          },
+          error:(err:any) => {
+            addToast(err);
+          }
+        })
     }
     // const list = users.map(x => <li key={x.identifier}>{x.name}</li>);
     return (
@@ -110,10 +136,10 @@ export const BodySection = (props:any) => {
             <p>The file should not be larger than 10mb.</p></div>
               {/* { !show ?  <Dummy /> : <CheckInForm />}    */}
               <FileUploader />
-          {/* <div>
-            <button onClick={() => ontest()}>test</button>
-            <button onClick={() => ontest2()}>test2</button>
-          </div> */}
+           <div>
+            {/* <button onClick={() => ontest()}>get weather</button> */}
+            {/* <button onClick={() => ontest2()}>get sample</button> */}
+          </div> 
         </>
 
     )

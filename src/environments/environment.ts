@@ -3,9 +3,9 @@ export interface ISetting {
 }
 export const environment = {
     env:process.env.REACT_APP_ENV || 'local',
-    local:'https://localhost:44308',
+    local:'https://localhost:7268',
     development:'https://depowersoft.com.au',
-    production:'https://depowersot.com.au',
+    production:'https://depowersoft.com.au',
     endpoint:() => {
         if (environment.env.trim() == 'local') {
           return environment.local;
@@ -17,9 +17,6 @@ export const environment = {
           return environment.production;
         }
         return environment.local;
-    },
-    isLocal:() => {
-      return environment.env.trim() == 'local';
     }
 }
 

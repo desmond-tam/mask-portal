@@ -1,6 +1,6 @@
 import { graphConfig } from "../config/authConfig";
 import axios from "axios";
-import { from, Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { axiosConfig } from "./util.service";
 import { environment } from "../environments/environment";
 
@@ -50,20 +50,68 @@ export async function callMsGraph(accessToken:string) {
 
 
   export class dataService {
-    public upload(body:any):Observable<any> {
-        const url = `${environment.endpoint()}/api/mask/upload`;
+    private _upload(body:any):Observable<any> {
+        const url = `${environment.endpoint()}/maskingappuploadv1`;
         const promise = axios.post(url,body,axiosConfig);
         return from(promise);
     }
+    public Upload(body:any):Observable<any> {
+        return new Observable<any>(subscriber => {
+            this._upload(body)
+                .pipe(
+                    map(x => x)
+                )
+                .subscribe({
+                    next:(response:any) => {
+                        subscriber.next(response.data);
+                        subscriber.complete();
+                    },
+                    error:(err:any) => {
+                         if (err.response?.status ==  400 && err.response.data?.messages) {
+                             const mesgs : string[] = err.response.data.messages;
+                            subscriber.error(mesgs);
+                         } else {
+                             subscriber.error(err.message);
+                             console.log(err.message);
+                         }
+                         subscriber.complete();
+                    }
+                })
+        })
+    }
     public getwealther():Observable<any> {
-        const url = `https://depowersoft.com.au/api/sample2`;
+        const url = `https://depowersoft.com.au/masking`;
         const promise = axios.get(url,axiosConfig);
         return from(promise);
     }
-    public getapiwealther():Observable<any> {
-        const url = `https://depowersoft.com.au/api/mask/getsample`;
+    private _getsample():Observable<any> {
+        const url = `${environment.endpoint()}/maskingappsamplev1`;
         const promise = axios.get(url,axiosConfig);
         return from(promise);
+    }
+    public GetSample():Observable<any> {
+        return new Observable<any>(subscriber => {
+            this._getsample()
+                .pipe(
+                    map(x => x)
+                )
+                .subscribe({
+                    next:(response:any) => {
+                        subscriber.next(response.data);
+                        subscriber.complete();
+                    },
+                    error:(err:any) => {
+                         if (err.response?.status ==  400 && err.response.data?.messages) {
+                             const mesgs : string[] = err.response.data.messages;
+                            subscriber.error(mesgs);
+                         } else {
+                             subscriber.error(err.message);
+                             console.log(err.message);
+                         }
+                         subscriber.complete();
+                    }
+                })
+        })
     }
 }
 
