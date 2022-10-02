@@ -5,6 +5,7 @@ import $ from 'jquery';
 import './body-section.scss';
 import { environment } from '../environments/environment';
 import { addToast, isCaptchaChecked, isLocal } from '../services/util.service';
+import { ContactUsSection } from './contacts/contactus-section';
 
 export const DashboardSection = (props:any) => {
    
@@ -103,11 +104,20 @@ export const FileUploader = () => {
   );
 }
 
-
-
-export const BodySection = (props:any) => {
-    const ontest = () => {
-      data_service.getwealther()
+export const UploadSection = () => {
+  const ontest = () => {
+    data_service.getwealther()
+    .subscribe({
+      next:() => {
+        console.log('done');
+      },
+      error:(err:any) => {
+        addToast(err);
+      }
+    })
+  }
+  const ontest2 = () => {
+    data_service.GetSample()
       .subscribe({
         next:() => {
           console.log('done');
@@ -116,26 +126,13 @@ export const BodySection = (props:any) => {
           addToast(err);
         }
       })
-    }
-    const ontest2 = () => {
-      data_service.GetSample()
-        .subscribe({
-          next:() => {
-            console.log('done');
-          },
-          error:(err:any) => {
-            addToast(err);
-          }
-        })
-    }
-    // const list = users.map(x => <li key={x.identifier}>{x.name}</li>);
-    return (
-        <>
-          <div>
+  }
+  return (
+      <>
+        <div>
             <ul>
-              <li>Your privacy is always our top priority concern. The upload information won't be kept on our server.</li>
+              <li>Your privacy is our priority. The upload information won't be kept and shared with other entities.</li>
               <li>Your upload information will be erased from memory right after the file is downloaded to your local machine.</li>
-              <li>Your information won't be shared with anyone.</li>
             </ul>
             <p>The PDF masking process is not for commercial use and still doing the fine tuning.</p>
             <p>The process will be moved to Azure.</p>
@@ -146,7 +143,38 @@ export const BodySection = (props:any) => {
             {/* <button onClick={() => ontest()}>get weather</button> */}
             {/* <button onClick={() => ontest2()}>get sample</button> */}
           </div> 
-        </>
+          </>
+  )
+}
 
+
+export const ShowBody = () => {
+    const { page } = gateway.usePage();
+    switch (page) {
+      case 'upload':{
+        return (
+          <UploadSection />
+        );
+        break;
+      };
+      case 'contactus':{
+        return (
+          <ContactUsSection />
+        );
+        break;
+      };
+      default:{
+        return (
+          <UploadSection />
+        )
+      }
+    }
+}
+
+export const BodySection = (props:any) => {
+    return (
+        <>
+          <ShowBody />
+        </>
     )
 }

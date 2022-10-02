@@ -109,6 +109,26 @@ export const useTokenObs = () => {
 
 
 export const gateway = {
+    page:new BehaviorSubject<string>('upload'),
+    usePage:() => {
+        const [page,setPage] = useState<string>('upload');
+        useEffect(() => {
+            const sub = gateway.page.subscribe((page:string) => {
+                setPage(page);
+            })
+            return () => {
+                if (sub) {
+                    sub.unsubscribe();
+                }
+            };
+        },[]);
+        
+        const showPage = (page:string) => {
+            gateway.page.next(page);
+        }
+
+        return { page,showPage };
+    },
     spinner:new BehaviorSubject<boolean>(false),
     useSpinner:() => {
         const [visible,setVisible] = useState<boolean>(false);

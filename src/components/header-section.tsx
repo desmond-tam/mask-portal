@@ -106,6 +106,7 @@ export const MoreAction = () => {
 export const HeaderSection = (props:any) => {
     const [isAuthenticated,setAuthenticated] = useState<boolean>(false);
     const { setToken,idToken } = useTokenObs();
+    const { page, showPage} = gateway.usePage();
    
     
     useEffect(() => {
@@ -121,18 +122,21 @@ export const HeaderSection = (props:any) => {
         //     })
     },[]);
 
+    const show = (page:string) => {
+        showPage(page);
+    }
     
    
     //const isAuthenicated = useIsAuthenticated();
     return (
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-              <Navbar.Brand href="#home"><div className="logo"></div></Navbar.Brand>
+              <Navbar.Brand href="#" onClick={() => show('upload')}><div className="logo"></div></Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                    {/* <Nav.Link href="#" onClick={() => addToast('hello')}>Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>  */}
+                    <Nav.Link href="#" onClick={() => show('contactus')}>Contact Us</Nav.Link>
+                    <Nav.Link href="#" onClick={() => show('upload')}>Process PDF</Nav.Link>
                   {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">
