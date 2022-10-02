@@ -135,7 +135,7 @@ export const BodySection = (props:any) => {
             <ul>
               <li>Your privacy is always our top priority concern. The upload information won't be kept on our server.</li>
               <li>Your upload information will be erased from memory right after the file is downloaded to your local machine.</li>
-              
+              <li>Your information won't be shared with anyone.</li>
             </ul>
             <p>The PDF masking process is not for commercial use and still doing the fine tuning.</p>
             <p>The process will be moved to Azure.</p>
