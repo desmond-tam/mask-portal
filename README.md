@@ -8,6 +8,8 @@ A batch process is also available to batch processing:
 
 The process will be moved to Azure.
 
+Contact Us: desmondeds@outlook.com
+
 <h1>Demo</h1>
 
 [![N|Solid](preview.jpg)](https://desmond-tam.github.io/mask-portal/)
