@@ -1,6 +1,6 @@
 import { graphConfig } from "../config/authConfig";
 import axios from "axios";
-import { from, map, Observable } from 'rxjs';
+import { from, map, Observable, Subscriber } from 'rxjs';
 import { axiosConfig } from "./util.service";
 import { environment } from "../environments/environment";
 
@@ -55,6 +55,17 @@ export async function callMsGraph(accessToken:string) {
         const promise = axios.post(url,body,axiosConfig);
         return from(promise);
     }
+    private _handleError(err:any,subscriber:Subscriber<any>) {
+        
+        if (err.response?.status ==  400 && err.response.data?.messages) {
+            const mesgs : string[] = err.response.data.messages;
+           subscriber.error(mesgs);
+        } else {
+            subscriber.error([err.message]);
+            console.log(err.message);
+        }
+        subscriber.complete();
+    }
     public Upload(body:any):Observable<any> {
         return new Observable<any>(subscriber => {
             this._upload(body)
@@ -66,16 +77,27 @@ export async function callMsGraph(accessToken:string) {
                         subscriber.next(response.data);
                         subscriber.complete();
                     },
-                    error:(err:any) => {
-                         if (err.response?.status ==  400 && err.response.data?.messages) {
-                             const mesgs : string[] = err.response.data.messages;
-                            subscriber.error(mesgs);
-                         } else {
-                             subscriber.error(err.message);
-                             console.log(err.message);
-                         }
-                         subscriber.complete();
-                    }
+                    error:(err:any) => this._handleError(err,subscriber)
+                })
+        })
+    }
+    public Encrypt(body:any):Observable<any> {
+        const post = (body:any):Observable<any> => {
+            const url = `${environment.endpoint()}/maskingappencryptv1`;
+            const promise = axios.post(url,body,axiosConfig);
+            return from(promise);
+        }
+        return new Observable<any>(subscriber => {
+            post(body)
+                .pipe(
+                    map(x => x)
+                )
+                .subscribe({
+                    next:(response:any) => {
+                        subscriber.next(response.data);
+                        subscriber.complete();
+                    },
+                    error:(err:any) => this._handleError(err,subscriber)
                 })
         })
     }

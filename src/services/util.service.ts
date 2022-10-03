@@ -30,3 +30,9 @@ export const addToast = (text:string) => {
 export const isLocal = () => {
     return window.location.host.indexOf('localhost') >= 0;
   }
+
+
+export const isValidPassword = (text:string) => {
+   var pattern = /^[a-z,0-9,_#]{8,}$/gmi;
+   return pattern.test(text);
+}
