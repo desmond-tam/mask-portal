@@ -60,7 +60,7 @@ const EncryptFileUploader = () => {
               var link = document.createElement('a');
               link.target = "_blank";
               link.href = `data:application/pdf;base64,${data.base64}`;
-              const filename = `out_${selectedFile.name}`;
+              const filename = `e${selectedFile.name}`;
               link.download = filename;
               link.click();
             },
