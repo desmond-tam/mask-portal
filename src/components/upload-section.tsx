@@ -44,7 +44,7 @@ const FileUploader = () => {
               var link = document.createElement('a');
               link.target = "_blank";
               link.href = `data:application/pdf;base64,${data.base64}`;
-              const filename = `out_${selectedFile.name}`;
+              const filename = `e${selectedFile.name}`;
               link.download = filename;
               link.click();
             },
@@ -125,11 +125,8 @@ const FileUploader = () => {
     }
     return (
         <>
-          <div>
-              <ul>
-                <li>Your privacy is our priority. The upload information won't be kept and shared with other entities.</li>
-                <li>Your upload information will be erased from memory right after the file is downloaded to your local machine.</li>
-              </ul>
+          <div className="upload-svg"></div>
+          <div className="upload-content">
               <p>The PDF masking process is not for commercial use and still doing the fine tuning.</p>
               <p>The process will be moved to Azure.</p>
               <p>The file should not be larger than 10mb.</p></div>

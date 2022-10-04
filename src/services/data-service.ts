@@ -50,11 +50,11 @@ export async function callMsGraph(accessToken:string) {
 
 
   export class dataService {
-    private _upload(body:any):Observable<any> {
-        const url = `${environment.endpoint()}/maskingappuploadv1`;
-        const promise = axios.post(url,body,axiosConfig);
-        return from(promise);
-    }
+    // private _upload(body:any):Observable<any> {
+    //     const url = `${environment.endpoint()}/maskingappuploadv1`;
+    //     const promise = axios.post(url,body,axiosConfig);
+    //     return from(promise);
+    // }
     private _handleError(err:any,subscriber:Subscriber<any>) {
         
         if (err.response?.status ==  400 && err.response.data?.messages) {
@@ -67,8 +67,13 @@ export async function callMsGraph(accessToken:string) {
         subscriber.complete();
     }
     public Upload(body:any):Observable<any> {
+        const _upload = (body:any):Observable<any> => {
+            const url = `${environment.endpoint()}/maskingappuploadv1`;
+            const promise = axios.post(url,body,axiosConfig);
+            return from(promise);
+        }
         return new Observable<any>(subscriber => {
-            this._upload(body)
+            _upload(body)
                 .pipe(
                     map(x => x)
                 )

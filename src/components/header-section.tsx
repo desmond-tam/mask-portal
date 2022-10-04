@@ -136,7 +136,7 @@ export const HeaderSection = (props:any) => {
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
                     <Nav.Link href="#" onClick={() => show('contactus')}>Contact Us</Nav.Link>
-                    <Nav.Link href="#" onClick={() => show('upload')}>Process PDF</Nav.Link>
+                    <Nav.Link href="#" onClick={() => show('upload')}>Mask PDF</Nav.Link>
                     <Nav.Link href="#" onClick={() => show('encrypt')}>Encrypt PDF</Nav.Link>
                   {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
