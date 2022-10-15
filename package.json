@@ -33,7 +33,7 @@
   },
   "scripts": {
     "deploy": "npm run build & gh-pages -d build",
-    "start": "set REACT_APP_ENV=local & react-scripts start",
+    "start": "set PORT=4320 && set REACT_APP_ENV=local & react-scripts start",
     "timestamp": "node scripts/timestamp.js",
     "build-dev": "set REACT_APP_ENV=development & react-scripts build && npm run timestamp",
     "build": "set REACT_APP_ENV=production & react-scripts build && npm run timestamp",
