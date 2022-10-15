@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/mask-portal/static/css/main.1cb041e1.css",
-    "main.js": "/mask-portal/static/js/main.02b885e0.js",
+    "main.css": "/mask-portal/static/css/main.87cc1065.css",
+    "main.js": "/mask-portal/static/js/main.580ecdd2.js",
     "static/js/787.2e8450ba.chunk.js": "/mask-portal/static/js/787.2e8450ba.chunk.js",
     "index.html": "/mask-portal/index.html",
-    "main.1cb041e1.css.map": "/mask-portal/static/css/main.1cb041e1.css.map",
-    "main.02b885e0.js.map": "/mask-portal/static/js/main.02b885e0.js.map",
+    "main.87cc1065.css.map": "/mask-portal/static/css/main.87cc1065.css.map",
+    "main.580ecdd2.js.map": "/mask-portal/static/js/main.580ecdd2.js.map",
     "787.2e8450ba.chunk.js.map": "/mask-portal/static/js/787.2e8450ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1cb041e1.css",
-    "static/js/main.02b885e0.js"
+    "static/css/main.87cc1065.css",
+    "static/js/main.580ecdd2.js"
   ]
 }
